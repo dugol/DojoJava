@@ -42,7 +42,10 @@ public class PostController{
     @PutMapping("/post/{id}")
     public Post updatePost(@PathVariable(value="id") Long PostId,
     @Valid @RequestBody Post postDetails){
-        Post postNote=post.findById(PostId);
+        Post postNote=post.findById(PostId)
+        .orElseThrow(
+            () -> new ResourceNotFoundException("Post", "id", PostId)
+        );
         postNote.setTitle(postDetails.getTitle());
         postNote.setContent(postDetails.getContent());
         return post.save(postNote);
