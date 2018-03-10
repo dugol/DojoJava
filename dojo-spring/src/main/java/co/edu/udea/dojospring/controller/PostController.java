@@ -47,5 +47,15 @@ public class PostController{
         postNote.setContent(postDetails.getContent());
         return post.save(postNote);
     }
+
+    @DeleteMapping("/post/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable(value="id") Long postId){
+        Post post =this.post.findById(postId)
+        .orElseThrow(
+            () -> new ResourceNotFoundException("post", "id", postId)
+        );
+        this.post.delete(post);
+        return ResponseEntity.ok().build();
+        }
     
 }
